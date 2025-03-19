@@ -8,7 +8,7 @@ passwords = ["shadow", "access", "matrix", "glitch", "cyber", "neon"]
 password = random.choice(passwords)  # Sélection aléatoire du mot de passe
 attempts = 5  # Nombre de tentatives
 
-# === Fonction de démarrage avec animation ===
+# === Fonction de démarrage avec animation ==
 def boot_animation():
     boot_messages = [
         "Initializing system...",
