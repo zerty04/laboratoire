@@ -19,4 +19,7 @@ print (globbornes)
 def compare():
     for i in range(4):
         if globbornes[i] == globcode[i]:
-            print("lol")
+            Bon_endroit = Bon_endroit + 1
+        elif globbornes[i] in globcode:
+            Mauvais_endroit = Mauvais_endroit + 1
+    print(Bon_endroit,'')
