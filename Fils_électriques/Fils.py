@@ -57,7 +57,6 @@ carnet_professeur = {
     19: "J’ai superposé des fréquences, et un motif est apparu. La musique des nombres ?"
 }
 
-print(symboles[2], carnet_professeur[2])
 
 def INDEX():
     try:
@@ -71,20 +70,61 @@ def INDEX():
         print("un entier")
 
 
+
+
 pygame.init()
 
-fenetre = pygame.display.set_mode((300,300))
+fenetre = pygame.display.set_mode((600, 400))
 pygame.display.set_caption("Mon Jeu")
 
-while True:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if bouton_rect.collidepoint(event.pos):
-                False
 
-    fenetre.fill((255,255,255))
-    pygame.display.flip
+#boutons (x, y, largeur, hauteur) du bouton
+bouton1 = pygame.Rect(40, 40, 50, 50)
+bouton2 = pygame.Rect(40, 130, 50, 50)
+bouton3 = pygame.Rect(40, 220, 50, 50)
+bouton4 = pygame.Rect(40, 310, 50, 50)
+
+bouton5 = pygame.Rect(500, 40, 50, 50)
+bouton6 = pygame.Rect(500, 130, 50, 50)
+bouton7 = pygame.Rect(500, 220, 50, 50)
+bouton8 = pygame.Rect(500, 310, 50, 50)
+
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:  # Si on clique sur la croix (X)
+            running = False  # On quitte la boucle
+
+        if event.type == pygame.MOUSEBUTTONDOWN:  # Si on clique
+            if bouton_rect.collidepoint(event.pos):  # Si c'est sur le bouton
+                running = False  # Quitter la boucle
+
+    fenetre.fill((50, 50, 50))
+
+
+def dessiner_texte_sur_bouton(texte, rect, couleur_texte):
+    # Rendre le texte avec la couleur spécifiée
+    texte_surface = font.render(texte, True, couleur_texte)
+    
+    # Calculer la position pour centrer le texte sur le bouton
+    texte_rect = texte_surface.get_rect(center=rect.center)
+    
+    # Dessiner le texte sur la fenêtre
+    fenetre.blit(texte_surface, texte_rect)
+
+
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton1)
+
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton2)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton3)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton4)
+
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton5)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton6)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton7)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton8)
+
+    pygame.display.flip()
 
 pygame.quit()
