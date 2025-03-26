@@ -3,12 +3,12 @@ from tkinter import messagebox, scrolledtext
 import random
 import time
 
-# Liste des mots de passe possibles
-passwords = ["shadow", "access", "matrix", "glitch", "cyber", "neon"]
-password = random.choice(passwords)  # Sélection aléatoire du mot de passe
-attempts = 5  # Nombre de tentatives
 
-# === Fonction de démarrage avec animation ==
+passwords = ["shadow", "access", "matrix", "glitch", "cyber", "neon"]
+password = random.choice(passwords)  
+attempts = 5 
+
+# animation du début
 def boot_animation():
     boot_messages = [
         "Initializing system...",
@@ -68,12 +68,13 @@ def check_password():
     terminal.see(tk.END)
     entry.delete(0, tk.END)
 
-# === Interface graphique ===
+# Interface graphique 
 root = tk.Tk()
 root.title("Hacker Terminal")
 root.configure(bg="black")
 root.geometry("900x550")
 root.resizable(True, True)
+
 
 # Zone de texte défilante pour afficher le terminal
 terminal = scrolledtext.ScrolledText(root, wrap=tk.WORD, bg="black", fg="green", 
@@ -95,7 +96,7 @@ entry.bind("<Return>", lambda event: check_password())
 
 # Bouton d'envoi
 send_button = tk.Button(entry_frame, text="Execute", command=check_password, bg="black", fg="green", 
-                        font=("Courier New", 12, "bold"), borderwidth=2, relief=tk.RAISED, activebackground="darkgreen")
+                        font=("Courier New", 10, "bold"), borderwidth=2, relief=tk.RAISED, activebackground="darkgreen")
 send_button.pack(side=tk.RIGHT, padx=5, pady=5)
 
 # Rendre la fenêtre responsive
