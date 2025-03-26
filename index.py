@@ -75,6 +75,7 @@ root.configure(bg="black")
 root.geometry("900x550")
 root.resizable(True, True)
 
+
 # Zone de texte défilante pour afficher le terminal
 terminal = scrolledtext.ScrolledText(root, wrap=tk.WORD, bg="black", fg="green", 
                                      insertbackground="green", font=("Courier New", 14, "bold"),
