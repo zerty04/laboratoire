@@ -1,4 +1,31 @@
 import random
+import tkinter 
+import tkinter.messagebox
+
+window = tkinter.Tk()
+window.title('Demo Tkinter')
+window.geometry('600x400')
+
+texte = 'UwU\n :3'
+lbl = tkinter.Label(window, text = texte, fg='white', bg='magenta', font = ("Times", "24", "bold italic"), justify = 'left')
+lbl.pack(fill = "both", expand = True)
+
+frm = tkinter.Frame(window)
+frm.pack(side = 'bottom')
+
+frm_lbl = tkinter.Label(frm, text = "code :").pack(side = 'left')
+frm_fld = tkinter.Entry(frm)
+frm_fld.pack(side = 'left')
+
+def maj(msg):
+    obtenir_chiffres()
+    lbl.config(text = msg)
+frm_btn = tkinter.Button(frm, text = 'Changer', command = lambda: maj( frm_fld.get()))
+frm_btn.pack()
+
+menu_bar = tkinter.Menu(window)
+window.config(menu = menu_bar)
+
 def code1():
     code =[]
     for i in range(4):
@@ -13,13 +40,13 @@ def obtenir_chiffres():
         liste_chiffres = []
         while len(liste_chiffres) < 4:
             try:
-                chiffre = int(input("Entrez un chiffre entre 0 et 9 : "))
-                if 0 <= chiffre <= 9:
+                chiffre = int("Entrez un code à 4 chiffres: ")
+                if 0 <= chiffre <= 9999:
                     liste_chiffres.append(chiffre)
                 else:
-                    print("Veuillez entrer un chiffre valide entre 0 et 9.")
+                    print("Veuillez entrer un code valide à 4 chiffres.")
             except ValueError:
-                print("Entrée invalide. Veuillez entrer un chiffre entre 0 et 9.")
+                print("Entrée invalide. Veuillez entrer un code à quatres chiffres.")
         return liste_chiffres
 
 def compare():
@@ -52,3 +79,5 @@ while crack == False:
     if compare() == 4:
         crack = True
 print("Bravo, vous avez trouver le code !!!")
+
+window.mainloop()
