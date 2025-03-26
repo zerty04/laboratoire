@@ -8,11 +8,11 @@ hauteur_fenetre = 600
 fenetre = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre))
 pygame.display.set_caption("Jetpack Joyride - Pièces et Obstacles Stylisés")
 
-player_image = pygame.image.load("player.png")  
-fireball_image = pygame.image.load("fireball.png")  
-piece_image = pygame.image.load("piece.png") 
-obstacle_violet_image = pygame.image.load("obstacle_violet.png") 
-background_image = pygame.image.load("background.jpg") 
+player_image = pygame.image.load("Dossier/player.png")  
+fireball_image = pygame.image.load("Dossier/fireball.png")  
+piece_image = pygame.image.load("Dossier/piece.png") 
+obstacle_violet_image = pygame.image.load("Dossier/obstacle_violet.png") 
+background_image = pygame.image.load("Dossier/background.jpg") 
 
 player_image = pygame.transform.scale(player_image, (80, 120))
 fireball_image = pygame.transform.scale(fireball_image, (60, 60))
