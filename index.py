@@ -1,111 +1,145 @@
-import tkinter as tk
-from tkinter import messagebox, scrolledtext
+import pygame
 import random
 import time
 
+# Initialisation de pygame
+pygame.init()
 
+# Paramètres de la fenêtre
+WIDTH, HEIGHT = 900, 550
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Hacker Terminal")
+
+# Couleurs
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+DARK_GREEN = (0, 200, 0)
+WHITE = (255, 255, 255)
+
+# Police
+font = pygame.font.Font(pygame.font.match_font('courier'), 20)
+
+# Mot de passe et tentatives
 passwords = ["shadow", "access", "matrix", "glitch", "cyber", "neon"]
-password = random.choice(passwords)  
-attempts = 5 
+password = random.choice(passwords)
+attempts = 5
 
-# animation du début
-def boot_animation():
-    boot_messages = [
-        "Initializing system...",
-        "Loading kernel modules...",
-        "Connecting to secure server...",
-        "Decrypting classified data...",
-        "Accessing restricted files...",
-        "Running security protocols...",
-        "No intrusions detected.",
-        "System ready. Awaiting command...",
-    ]
+time_limit = 90  # 1 min 30 sec
+start_time = time.time()
+
+# Historique des messages
+terminal_lines = []
+input_text = ""
+
+# Messages de démarrage
+boot_messages = [
+    "Initializing system...",
+    "Loading kernel modules...",
+    "Connecting to secure server...",
+    "Decrypting classified data...",
+    "Accessing restricted files...",
+    "Running security protocols...",
+    "No intrusions detected.",
+    "System ready. Awaiting command...",
+]
+
+def draw_terminal():
+    screen.fill(BLACK)
+    y_offset = 20
+    for line in terminal_lines[-20:]:  # Afficher les 20 dernières lignes
+        text_surface = font.render(line, True, GREEN)
+        screen.blit(text_surface, (10, y_offset))
+        y_offset += 25
+    
+    # Afficher le texte entré
+    input_surface = font.render("> " + input_text, True, GREEN)
+    screen.blit(input_surface, (10, HEIGHT - 40))
+    
+    # Afficher le minuteur
+    elapsed_time = int(time.time() - start_time)
+    remaining_time = max(0, time_limit - elapsed_time)
+    timer_surface = font.render(f"Temps restant : {remaining_time}s", True, DARK_GREEN)
+    screen.blit(timer_surface, (WIDTH - 250, 10))
+    
+    pygame.display.flip()
+
+def add_terminal_line(text):
+    terminal_lines.append(text)
+
+def boot_sequence():
     for msg in boot_messages:
-        terminal.config(state=tk.NORMAL)
-        terminal.insert(tk.END, f"{msg}\n", "boot")
-        terminal.config(state=tk.DISABLED)
-        terminal.see(tk.END)
-        root.update()
+        add_terminal_line(msg)
+        draw_terminal()
         time.sleep(random.uniform(0.2, 0.5))
-    terminal.config(state=tk.NORMAL)
-    terminal.insert(tk.END, "\n", "output")
-    terminal.config(state=tk.DISABLED)
+    add_terminal_line("")
 
-# === Fonction de vérification du mot de passe ===
-def check_password():
-    global attempts
-    guess = entry.get().strip().lower()
+# Lancer la séquence de démarrage
+boot_sequence()
+
+def show_hacked_window():
+    hacked_screen = pygame.display.set_mode((500, 300))
+    hacked_screen.fill(BLACK)
+    hacked_font = pygame.font.Font(pygame.font.match_font('courier'), 30)
+    hacked_text = hacked_font.render("Accès aux caméras obtenu !", True, GREEN)
+    hacked_screen.blit(hacked_text, (50, 130))
+    pygame.display.flip()
+    time.sleep(3)
+
+def process_command(command):
+    global attempts, input_text
+    command = command.strip().lower()
+    add_terminal_line("> " + command)
     
-    terminal.config(state=tk.NORMAL)
-    terminal.insert(tk.END, f"> {guess}\n", "command")
-    terminal.config(state=tk.DISABLED)
-    terminal.see(tk.END)
-    
-    if guess == "hint":
+    if command == "hint":
         response = f"Le mot de passe commence par '{password[0]}' et contient {len(password)} lettres."
-    elif guess == "list":
-        response = "Liste des mots de passe possibles : " + ", ".join(passwords)
-    elif guess.startswith("hack "):
-        attempt = guess.split(" ", 1)[1]  # Récupère le mot après "hack "
+    elif command == "list":
+        response = "Mots possibles : " + ", ".join(passwords)
+    elif command.startswith("hack "):
+        attempt = command.split(" ", 1)[1]
         if attempt == password:
             response = "Accès autorisé ! Vous avez piraté le système ! 🔓"
-            messagebox.showinfo("Hacking réussi", response)
-            root.quit()
+            draw_terminal()
+            show_hacked_window()
+            pygame.quit()
+            exit()
         else:
             attempts -= 1
-            if attempts > 0:
-                response = f"Accès refusé ! Tentatives restantes : {attempts}"
-            else:
-                response = f"Échec du hack ! Le mot de passe était : {password}"
-                messagebox.showerror("Game Over", response)
-                root.quit()
+            response = f"Accès refusé ! Tentatives restantes : {attempts}" if attempts > 0 else f"Échec du hack ! Le mot de passe était : {password}"
+            if attempts == 0:
+                pygame.quit()
+                exit()
     else:
-        response = "Commande invalide. Utilisez :\n- 'hint' pour un indice\n- 'list' pour voir les mots possibles\n- 'hack [mot]' pour tenter un hack."
+        response = "Commande invalide. Utilisez : hint, list, hack [mot]"
     
-    terminal.config(state=tk.NORMAL)
-    terminal.insert(tk.END, f"{response}\n\n", "output")
-    terminal.config(state=tk.DISABLED)
-    terminal.see(tk.END)
-    entry.delete(0, tk.END)
+    add_terminal_line(response)
 
-# Interface graphique 
-root = tk.Tk()
-root.title("Hacker Terminal")
-root.configure(bg="black")
-root.geometry("900x550")
-root.resizable(True, True)
+def main():
+    global input_text
+    running = True
+    clock = pygame.time.Clock()
+    
+    while running:
+        draw_terminal()
+        elapsed_time = time.time() - start_time
+        if elapsed_time >= time_limit:
+            add_terminal_line("Temps écoulé ! Échec du hack !")
+            pygame.quit()
+            exit()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    process_command(input_text)
+                    input_text = ""
+                elif event.key == pygame.K_BACKSPACE:
+                    input_text = input_text[:-1]
+                else:
+                    input_text += event.unicode
+        
+        clock.tick(30)
+    
+    pygame.quit()
 
-
-# Zone de texte défilante pour afficher le terminal
-terminal = scrolledtext.ScrolledText(root, wrap=tk.WORD, bg="black", fg="green", 
-                                     insertbackground="green", font=("Courier New", 14, "bold"),
-                                     borderwidth=2, relief=tk.SUNKEN, state=tk.DISABLED)
-terminal.tag_config("boot", foreground="lightgreen", font=("Courier New", 12))
-terminal.tag_config("command", foreground="lime", font=("Courier New", 14, "bold"))
-terminal.tag_config("output", foreground="lightgreen", font=("Courier New", 13))
-terminal.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
-
-# Entrée utilisateur
-entry_frame = tk.Frame(root, bg="black")
-entry_frame.pack(pady=5, padx=10, fill=tk.X)
-
-entry = tk.Entry(entry_frame, bg="black", fg="green", insertbackground="green", 
-                 font=("Courier New", 14, "bold"), borderwidth=2, relief=tk.SUNKEN)
-entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5, pady=5)
-entry.bind("<Return>", lambda event: check_password())
-
-# Bouton d'envoi
-send_button = tk.Button(entry_frame, text="Execute", command=check_password, bg="black", fg="green", 
-                        font=("Courier New", 10, "bold"), borderwidth=2, relief=tk.RAISED, activebackground="darkgreen")
-send_button.pack(side=tk.RIGHT, padx=5, pady=5)
-
-# Rendre la fenêtre responsive
-root.grid_rowconfigure(0, weight=1)
-root.grid_columnconfigure(0, weight=1)
-terminal.pack(fill=tk.BOTH, expand=True)
-entry_frame.pack(fill=tk.X)
-
-# Effet de démarrage
-entry.focus()
-root.after(500, boot_animation)
-root.mainloop()
+main()
