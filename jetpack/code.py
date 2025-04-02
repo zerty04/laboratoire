@@ -8,27 +8,20 @@ hauteur_fenetre = 600
 fenetre = pygame.display.set_mode((largeur_fenetre, hauteur_fenetre))
 pygame.display.set_caption("Jetpack Joyride - Pièces et Obstacles Stylisés")
 
-player_image = pygame.image.load("player.png")  
-fireball_image = pygame.image.load("fireball.png")  
-piece_image = pygame.image.load("piece.png") 
-obstacle_violet_image = pygame.image.load("obstacle_violet.png") 
-background_image = pygame.image.load("background.jpg") 
+player_image = pygame.image.load("Dossier/player.png")  
+fireball_image = pygame.image.load("Dossier/fireball.png")  
+piece_image = pygame.image.load("Dossier/piece.png") 
+obstacle_violet_image = pygame.image.load("Dossier/obstacle_violet.png")
+background_image = pygame.image.load("Dossier/background.jpg") 
 
-player_image = pygame.transform.scale(player_image, (80, 120))
+player_image = pygame.transform.scale(player_image, (70, 110 ))
 fireball_image = pygame.transform.scale(fireball_image, (60, 60))
 piece_image = pygame.transform.scale(piece_image, (40, 40))  
-obstacle_violet_image = pygame.transform.scale(obstacle_violet_image, (70, 70))
+obstacle_violet_image = pygame.transform.scale(obstacle_violet_image, (100, 90))
 background_image = pygame.transform.scale(background_image, (largeur_fenetre, hauteur_fenetre))
 
 
-BLANC = (255, 255, 255)
-ROUGE = (255, 0, 0)
-OR = (255, 223, 0)
-BLEU = (0, 0, 255)
 NOIR = (0, 0, 0)
-VERT = (0, 255, 0)
-JAUNE = (255, 255, 0)
-VIOLET = (128, 0, 128)
 
 clock = pygame.time.Clock()
 
@@ -39,12 +32,13 @@ player_y = hauteur_fenetre // 2
 player_velocity = 5
 is_flying = False
 
-piece_radius = 15
+piece_radius = 10
 pieces = []
                 
 obstacle_violet_width = 50
 obstacle_violet_height = 50
 obstacle_violet_velocity = 5
+pièce_velocity = 3
 obstacles_violets = []
 
 fireballs = []
@@ -86,17 +80,6 @@ def verifier_collision_cercle_rectangle(cercle, rectangle):
         return True
     return False
 
-def deplacer_pieces_vers_joueur():
-    global pieces
-    for piece in pieces:
-        piece_center = pygame.math.Vector2(piece.center)
-        player_center = pygame.math.Vector2(player_x + player_width / 2, player_y + player_height / 2)
-        
-        direction = player_center - piece_center
-        direction = direction.normalize() * 2  
-        
-        piece.centerx += direction.x
-        piece.centery += direction.y
 
 def boucle_principale():
     global player_y, is_flying, obstacles_violets, pieces, fireballs
@@ -158,7 +141,6 @@ def boucle_principale():
         obstacles_violets = [obstacle for obstacle in obstacles_violets if obstacle.x + obstacle_violet_width > 0]
         fireballs = [fireball for fireball in fireballs if fireball.x + 30 > 0]
         
-        deplacer_pieces_vers_joueur()
         
         fenetre.blit(background_image, (0, 0))  
         dessiner_joueur(player_x, player_y)
@@ -171,14 +153,20 @@ def boucle_principale():
         
         for piece in pieces:
             dessiner_piece(piece)
+
+        pieces = [piece.move(-pièce_velocity, 0) for piece in pieces]
+
         
         font = pygame.font.Font(None, 36)
         score_text = font.render(f"Score: {score}", True, NOIR)
         fenetre.blit(score_text, (10, 10))
         
+
+        
         pygame.display.update()
         
         clock.tick(60)
+
 
     pygame.quit()
 
