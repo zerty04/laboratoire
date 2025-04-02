@@ -31,6 +31,10 @@ start_time = time.time()
 terminal_lines = []
 input_text = ""
 
+# Charger l'image des caméras
+camera_image = pygame.image.load("camera.png")
+camera_image = pygame.transform.scale(camera_image, (WIDTH, HEIGHT))
+
 # Messages de démarrage
 boot_messages = [
     "Initializing system...",
@@ -76,14 +80,26 @@ def boot_sequence():
 # Lancer la séquence de démarrage
 boot_sequence()
 
-def show_hacked_window():
-    hacked_screen = pygame.display.set_mode((500, 300))
-    hacked_screen.fill(BLACK)
-    hacked_font = pygame.font.Font(pygame.font.match_font('courier'), 30)
-    hacked_text = hacked_font.render("Accès aux caméras obtenu !", True, GREEN)
-    hacked_screen.blit(hacked_text, (50, 130))
+def hacking_animation():
+    screen.fill(BLACK)
+    for i in range(10):
+        text_surface = font.render("HACKING...", True, GREEN if i % 2 == 0 else DARK_GREEN)
+        screen.blit(text_surface, (WIDTH // 2 - 100, HEIGHT // 2))
+        pygame.display.flip()
+        time.sleep(0.3)
+    screen.fill(BLACK)
+    text_surface = font.render("ACCÈS AUX CAMÉRAS OBTENU", True, GREEN)
+    screen.blit(text_surface, (WIDTH // 2 - 200, HEIGHT // 2))
     pygame.display.flip()
-    time.sleep(3)
+    time.sleep(2)
+    show_camera_feed()
+
+def show_camera_feed():
+    screen.blit(camera_image, (0, 0))
+    pygame.display.flip()
+    time.sleep(5)
+    pygame.quit()
+    exit()
 
 def process_command(command):
     global attempts, input_text
@@ -97,11 +113,9 @@ def process_command(command):
     elif command.startswith("hack "):
         attempt = command.split(" ", 1)[1]
         if attempt == password:
-            response = "Accès autorisé ! Vous avez piraté le système ! 🔓"
+            add_terminal_line("Accès autorisé ! Vous avez piraté le système ! 🔓")
             draw_terminal()
-            show_hacked_window()
-            pygame.quit()
-            exit()
+            hacking_animation()
         else:
             attempts -= 1
             response = f"Accès refusé ! Tentatives restantes : {attempts}" if attempts > 0 else f"Échec du hack ! Le mot de passe était : {password}"
