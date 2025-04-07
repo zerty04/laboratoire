@@ -30,6 +30,22 @@ symboles = (
         ["🔢", "🎼"]
 )
 
+assoc_symboles = {
+    'bouton1': "⚡",
+    'bouton2': "🔧",
+    'bouton3': "🌞",
+    'bouton4': "🔥",
+    'bouton5': "🧲",
+    'bouton6': "💥",
+    'bouton7': "🔌",
+    'bouton8': "⚙️",
+    'bouton9': "🔄",
+    'bouton10': "🔋"
+}
+
+connexions = [] 
+bouton_selectionne = None
+
 
 carnet_professeur = {
     0: "Tout autour de moi, l'énergie danse, invisible, insaisissable... Mais j'ai compris ! Il faut savoir la capturer et la stocker !",
@@ -69,62 +85,124 @@ def INDEX():
     except ValueError:
         print("un entier")
 
-
-
-
 pygame.init()
 
 fenetre = pygame.display.set_mode((600, 400))
 pygame.display.set_caption("Mon Jeu")
 
+bouton1 = pygame.Rect(40, 30, 50, 50)
+bouton2 = pygame.Rect(40, 100, 50, 50)
+bouton3 = pygame.Rect(40, 172, 50, 50)
+bouton4 = pygame.Rect(40, 246, 50, 50)
+bouton5 = pygame.Rect(40, 320, 50, 50)
 
-#boutons (x, y, largeur, hauteur) du bouton
-bouton1 = pygame.Rect(40, 40, 50, 50)
-bouton2 = pygame.Rect(40, 130, 50, 50)
-bouton3 = pygame.Rect(40, 220, 50, 50)
-bouton4 = pygame.Rect(40, 310, 50, 50)
+bouton6 = pygame.Rect(500, 30, 50, 50)
+bouton7 = pygame.Rect(500, 100, 50, 50)
+bouton8 = pygame.Rect(500, 172, 50, 50)
+bouton9 = pygame.Rect(500, 246, 50, 50)
+bouton10 = pygame.Rect(500, 320, 50, 50)
 
-bouton5 = pygame.Rect(500, 40, 50, 50)
-bouton6 = pygame.Rect(500, 130, 50, 50)
-bouton7 = pygame.Rect(500, 220, 50, 50)
-bouton8 = pygame.Rect(500, 310, 50, 50)
+boutons_gauche = [bouton1, bouton2, bouton3, bouton4, bouton5]
+boutons_droite = [bouton6, bouton7, bouton8, bouton9, bouton10]
 
+# Images
+image_bouton1 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/electricite.jpg')
+image_bouton1 = pygame.transform.scale(image_bouton1, (50, 50))
+image_bouton2 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/cle_a_molette.jpg')
+image_bouton2 = pygame.transform.scale(image_bouton2, (50, 50))
+image_bouton3 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/soleil.jpg')
+image_bouton3 = pygame.transform.scale(image_bouton3, (50, 50))
+image_bouton4 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/feu.jpg')
+image_bouton4 = pygame.transform.scale(image_bouton4, (50, 50))
+image_bouton5 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/aimant.jpg')
+image_bouton5 = pygame.transform.scale(image_bouton5, (50, 50))
+image_bouton6 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion.jpg')
+image_bouton6 = pygame.transform.scale(image_bouton6, (50, 50))
+image_bouton7 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/prise.jpg') # prise
+image_bouton7 = pygame.transform.scale(image_bouton7, (50, 50))
+image_bouton8 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/Rouage.jpg')
+image_bouton8 = pygame.transform.scale(image_bouton8, (50, 50))
+image_bouton9 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/reverse.jpg')
+image_bouton9 = pygame.transform.scale(image_bouton9, (50, 50))
+image_bouton10 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/batterie.jpg') #batterie
+image_bouton10 = pygame.transform.scale(image_bouton10, (50, 50))
+
+bouton_verification = pygame.Rect(250, 10, 100, 40) 
 
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # Si on clique sur la croix (X)
-            running = False  # On quitte la boucle
+            running = False 
 
-        if event.type == pygame.MOUSEBUTTONDOWN:  # Si on clique
-            if bouton_rect.collidepoint(event.pos):  # Si c'est sur le bouton
-                running = False  # Quitter la boucle
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            pos = event.pos
+            # Vérifier si clic sur un bouton de gauche
+            for b in boutons_gauche:
+                if b.collidepoint(pos):
+                    bouton_selectionne = b  # Sélectionner le bouton gauche
+                    break
+            else:  # Si pas de bouton gauche, on vérifie les boutons de droite
+                for b in boutons_droite:
+                    if b.collidepoint(pos) and bouton_selectionne:
+                        connexions.append((bouton_selectionne, b))  # Connexion entre gauche et droite
+                        bouton_selectionne = None 
+                        break
 
-    fenetre.fill((50, 50, 50))
+            # Vérification du bouton de vérification
+            if bouton_verification.collidepoint(pos):
+                print("Vérification des connexions...")
+                for gauche, droite in connexions:
+                    sym_gauche = assoc_symboles.get(f'bouton{boutons_gauche.index(gauche) + 1}')
+                    sym_droite = assoc_symboles.get(f'bouton{boutons_droite.index(droite) + 6}')
+                    if [sym_gauche, sym_droite] in symboles or [sym_droite, sym_gauche] in symboles:
+                        print(f"✅ {sym_gauche} connecté à {sym_droite} — Correct")
+                    else:
+                        print(f"❌ {sym_gauche} connecté à {sym_droite} — Incorrect")
+                        explosion_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion_finale.jpg') 
+                        explosion_image = pygame.transform.scale(explosion_image, (100, 100))
+                        fenetre.blit(explosion_image, (250, 150))
 
-
-def dessiner_texte_sur_bouton(texte, rect, couleur_texte):
-    # Rendre le texte avec la couleur spécifiée
-    texte_surface = font.render(texte, True, couleur_texte)
     
-    # Calculer la position pour centrer le texte sur le bouton
-    texte_rect = texte_surface.get_rect(center=rect.center)
+    # Remplir l'écran
+    fenetre.fill((255, 255, 255))
     
-    # Dessiner le texte sur la fenêtre
-    fenetre.blit(texte_surface, texte_rect)
-
-
+    # Dessiner les boutons
     pygame.draw.rect(fenetre, (0, 0, 0), bouton1)
-
     pygame.draw.rect(fenetre, (0, 0, 0), bouton2)
     pygame.draw.rect(fenetre, (0, 0, 0), bouton3)
     pygame.draw.rect(fenetre, (0, 0, 0), bouton4)
-
     pygame.draw.rect(fenetre, (0, 0, 0), bouton5)
     pygame.draw.rect(fenetre, (0, 0, 0), bouton6)
     pygame.draw.rect(fenetre, (0, 0, 0), bouton7)
     pygame.draw.rect(fenetre, (0, 0, 0), bouton8)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton9)
+    pygame.draw.rect(fenetre, (0, 0, 0), bouton10)
+    
+    for b1, b2 in connexions:
+        x1, y1 = b1.center
+        x2, y2 = b2.center
+        pygame.draw.line(fenetre, (0, 0, 255), (x1, y1), (x2, y2), 3)
 
+    # Dessiner le bouton de vérification
+    pygame.draw.rect(fenetre, (0, 200, 0), bouton_verification)
+    font = pygame.font.Font(None, 24)
+    texte_verif = font.render("Vérifier", True, (255, 255, 255))
+    fenetre.blit(texte_verif, (bouton_verification.x + 10, bouton_verification.y + 10))
+
+    # Afficher les images sur les boutons
+    fenetre.blit(image_bouton1, bouton1)
+    fenetre.blit(image_bouton2, bouton2)
+    fenetre.blit(image_bouton3, bouton3)
+    fenetre.blit(image_bouton4, bouton4)
+    fenetre.blit(image_bouton5, bouton5)
+    fenetre.blit(image_bouton6, bouton6)
+    fenetre.blit(image_bouton7, bouton7)
+    fenetre.blit(image_bouton8, bouton8)
+    fenetre.blit(image_bouton9, bouton9)
+    fenetre.blit(image_bouton10, bouton10)
+
+    # Mettre à jour l'affichage
     pygame.display.flip()
 
 pygame.quit()
