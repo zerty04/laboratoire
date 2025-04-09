@@ -94,25 +94,25 @@ boutons_gauche = [bouton1, bouton2, bouton3, bouton4, bouton5]
 boutons_droite = [bouton6, bouton7, bouton8, bouton9, bouton10]
 
 # Images
-image_bouton1 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/electricite.jpg')
+image_bouton1 = pygame.image.load('Fils_électriques/images du turfu/electricite.jpg')
 image_bouton1 = pygame.transform.scale(image_bouton1, (50, 50))
-image_bouton2 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/cle_a_molette.jpg')
+image_bouton2 = pygame.image.load('Fils_électriques/images du turfu/cle_a_molette.jpg')
 image_bouton2 = pygame.transform.scale(image_bouton2, (50, 50))
-image_bouton3 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/soleil.jpg')
+image_bouton3 = pygame.image.load('Fils_électriques/images du turfu/soleil.jpg')
 image_bouton3 = pygame.transform.scale(image_bouton3, (50, 50))
-image_bouton4 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/feu.jpg')
+image_bouton4 = pygame.image.load('Fils_électriques/images du turfu/feu.jpg')
 image_bouton4 = pygame.transform.scale(image_bouton4, (50, 50))
-image_bouton5 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/aimant.jpg')
+image_bouton5 = pygame.image.load('Fils_électriques/images du turfu/aimant.jpg')
 image_bouton5 = pygame.transform.scale(image_bouton5, (50, 50))
-image_bouton6 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion.jpg')
+image_bouton6 = pygame.image.load('Fils_électriques/images du turfu/explosion.jpg')
 image_bouton6 = pygame.transform.scale(image_bouton6, (50, 50))
-image_bouton7 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/prise.jpg') # prise
+image_bouton7 = pygame.image.load('Fils_électriques/images du turfu/prise.jpg') # prise
 image_bouton7 = pygame.transform.scale(image_bouton7, (50, 50))
-image_bouton8 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/Rouage.jpg')
+image_bouton8 = pygame.image.load('Fils_électriques/images du turfu/Rouage.jpg')
 image_bouton8 = pygame.transform.scale(image_bouton8, (50, 50))
-image_bouton9 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/reverse.jpg')
+image_bouton9 = pygame.image.load('Fils_électriques/images du turfu/reverse.jpg')
 image_bouton9 = pygame.transform.scale(image_bouton9, (50, 50))
-image_bouton10 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/batterie.jpg') #batterie
+image_bouton10 = pygame.image.load('Fils_électriques/images du turfu/batterie.jpg') #batterie
 image_bouton10 = pygame.transform.scale(image_bouton10, (50, 50))
 
 bouton_verification = pygame.Rect(250, 10, 100, 40) 
