@@ -1,83 +1,77 @@
+
 import random
-import tkinter 
-import tkinter.messagebox
-
-window = tkinter.Tk()
-window.title('Demo Tkinter')
-window.geometry('600x400')
-
-texte = 'UwU\n :3'
-lbl = tkinter.Label(window, text = texte, fg='white', bg='magenta', font = ("Times", "24", "bold italic"), justify = 'left')
-lbl.pack(fill = "both", expand = True)
-
-frm = tkinter.Frame(window)
-frm.pack(side = 'bottom')
-
-frm_lbl = tkinter.Label(frm, text = "code :").pack(side = 'left')
-frm_fld = tkinter.Entry(frm)
-frm_fld.pack(side = 'left')
-
-def maj(msg):
-    obtenir_chiffres()
-    lbl.config(text = msg)
-frm_btn = tkinter.Button(frm, text = 'Changer', command = lambda: maj( frm_fld.get()))
-frm_btn.pack()
-
-menu_bar = tkinter.Menu(window)
-window.config(menu = menu_bar)
+import pygame
 
 def code1():
-    code =[]
-    for i in range(4):
-        code.append(random.randint(0,9))
-    return code 
+    return [random.randint(0, 9) for _ in range(4)]
+
 globcode = code1()
-print(globcode)
 
+def compare(globbornes, globcode):
+    Bon_endroit = sum(1 for a, b in zip(globbornes, globcode) if a == b)
+    Mauvais_endroit = sum(min(globbornes.count(n), globcode.count(n)) for n in set(globcode)) - Bon_endroit
+    return Bon_endroit, Mauvais_endroit
 
-
-def obtenir_chiffres():
-        liste_chiffres = []
-        while len(liste_chiffres) < 4:
-            try:
-                chiffre = int("Entrez un code à 4 chiffres: ")
-                if 0 <= chiffre <= 9999:
-                    liste_chiffres.append(chiffre)
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((600, 400))
+    pygame.display.set_caption("Crack the Code")
+    
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    GRAY = (200, 200, 200)
+    font = pygame.font.Font(None, 50)
+    
+    input_box = pygame.Rect(200, 150, 200, 50)
+    color_active, color_inactive = WHITE, GRAY
+    color = color_inactive
+    active = False
+    text = ""
+    message = ""
+    historique = []
+    
+    running = True
+    while running:
+        screen.fill(BLACK)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                active = input_box.collidepoint(event.pos)
+                color = color_active if active else color_inactive
+            if event.type == pygame.KEYDOWN and active:
+                if event.key == pygame.K_RETURN:
+                    if len(text) == 4 and text.isdigit():
+                        guess = [int(ch) for ch in text]
+                        historique.append(text)
+                        bon, mauvais = compare(guess, globcode)
+                        message = f"{bon} bien placé, {mauvais} mal placé"
+                        if bon == 4:
+                            message = "Bravo, code trouvé !"
+                    text = ""
+                elif event.key == pygame.K_BACKSPACE:
+                    text = text[:-1]
                 else:
-                    print("Veuillez entrer un code valide à 4 chiffres.")
-            except ValueError:
-                print("Entrée invalide. Veuillez entrer un code à quatres chiffres.")
-        return liste_chiffres
-
-def compare():
-        Bon_endroit = 0
-        Mauvais_endroit = 0
-        for elem1,elem2 in zip(globbornes,globcode):
-            if elem1 == elem2:
-                Bon_endroit = Bon_endroit + 1
-
-        for element in globcode:
-            if element in globbornes:
-                Mauvais_endroit = Mauvais_endroit + 1
-        Mauvais_endroit = Mauvais_endroit - Bon_endroit
-        print(Bon_endroit,'chiffres placés au bon endroit et',Mauvais_endroit,'chiffres placés au mauvais endroit')
-        return Bon_endroit
-
-
-
-
-Historique = []
-crack = False 
-while crack == False:
+                    if len(text) < 4 and event.unicode.isdigit():
+                        text += event.unicode
+        
+        pygame.draw.rect(screen, color, input_box, 2)
+        txt_surface = font.render(text, True, WHITE)
+        screen.blit(txt_surface, (input_box.x + 10, input_box.y + 10))
+        
+        msg_surface = font.render(message, True, WHITE)
+        screen.blit(msg_surface, (200, 250))
+        
+        y_offset = 300
+        for past_guess in historique[-5:]:
+            past_surface = font.render(past_guess, True, WHITE)
+            screen.blit(past_surface, (200, y_offset))
+            y_offset += 30
+        
+        pygame.display.flip()
     
-    globbornes = obtenir_chiffres()
-    Historique.append(globbornes)
-    for element in Historique:
-        print(element)
+    pygame.quit()
 
-    
-    if compare() == 4:
-        crack = True
-print("Bravo, vous avez trouver le code !!!")
-
-window.mainloop()
+if __name__ == "__main__":
+    main()
