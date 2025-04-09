@@ -11,16 +11,17 @@ pygame.display.set_caption("Jetpack Joyride - Pièces et Obstacles Stylisés")
 player_image = pygame.image.load("Dossier/player.png")  
 fireball_image = pygame.image.load("Dossier/fireball.png")  
 piece_image = pygame.image.load("Dossier/piece.png") 
-obstacle_violet_image = pygame.image.load("Dossier/obstacle_violet.png")
+obstacle_violet_image = pygame.image.load("Dossier/zap.png")
 background_image = pygame.image.load("Dossier/background.jpg") 
+
 
 player_image = pygame.transform.scale(player_image, (70, 110 ))
 fireball_image = pygame.transform.scale(fireball_image, (60, 60))
 piece_image = pygame.transform.scale(piece_image, (40, 40))  
-obstacle_violet_image = pygame.transform.scale(obstacle_violet_image, (100, 90))
+obstacle_violet_image = pygame.transform.scale(obstacle_violet_image, (200, 80))
 background_image = pygame.transform.scale(background_image, (largeur_fenetre, hauteur_fenetre))
 
-
+obstacle_violet_image = pygame.transform.rotate(obstacle_violet_image, 90)
 NOIR = (0, 0, 0)
 
 clock = pygame.time.Clock()
@@ -36,7 +37,7 @@ piece_radius = 10
 pieces = []
                 
 obstacle_violet_width = 50
-obstacle_violet_height = 50
+obstacle_violet_height = 100
 obstacle_violet_velocity = 5
 pièce_velocity = 3
 obstacles_violets = []
@@ -111,7 +112,7 @@ def boucle_principale():
         if random.random() < 0.02:
             pieces.append(generer_piece())
         
-        if random.random() < 0.02:
+        if random.random() < 0.01:
             obstacles_violets.append(generer_obstacle_violet())
         
         if random.random() < 0.02:
@@ -135,7 +136,10 @@ def boucle_principale():
             if verifier_collision_cercle_rectangle(piece, player_rect):
                 pieces_cueillies.append(piece)
                 score += 10  
-        
+        if score >= 100:
+            game_over = True
+            
+
         pieces = [piece for piece in pieces if piece not in pieces_cueillies]
         
         obstacles_violets = [obstacle for obstacle in obstacles_violets if obstacle.x + obstacle_violet_width > 0]
