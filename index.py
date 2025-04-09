@@ -201,3 +201,13 @@ def main():
     
     pygame.quit()
 main()
+
+# ===============================
+# FONCTION DE LANCEMENT DU JEU
+# ===============================
+def run():
+    main()  # Lance la fonction main() du jeu
+
+# Lancement direct si exécuté en autonome
+if __name__ == "__main__":
+    run()
