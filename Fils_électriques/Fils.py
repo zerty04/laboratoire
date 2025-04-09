@@ -73,24 +73,12 @@ carnet_professeur = {
     19: "J’ai superposé des fréquences, et un motif est apparu. La musique des nombres ?"
 }
 
-
-def INDEX():
-    try:
-        symbole = int(input("index de symbole"))
-        carnet = int(input("index du carnet"))
-        if symbole == carnet:
-            print("C'est tout bon")
-        else:
-            print("Pas bon")
-    except ValueError:
-        print("un entier")
-
 pygame.init()
 
 fenetre = pygame.display.set_mode((600, 400))
-pygame.display.set_caption("Mon Jeu")
+pygame.display.set_caption("Fils électriques")
 
-bouton1 = pygame.Rect(40, 30, 50, 50)
+bouton1 = pygame.Rect(40, 30, 50, 50) 
 bouton2 = pygame.Rect(40, 100, 50, 50)
 bouton3 = pygame.Rect(40, 172, 50, 50)
 bouton4 = pygame.Rect(40, 246, 50, 50)
@@ -140,12 +128,12 @@ while running:
             # Vérifier si clic sur un bouton de gauche
             for b in boutons_gauche:
                 if b.collidepoint(pos):
-                    bouton_selectionne = b  # Sélectionner le bouton gauche
+                    bouton_selectionne = b  # Sélectionner bouton gauche
                     break
-            else:  # Si pas de bouton gauche, on vérifie les boutons de droite
+            else:  # Si pas de bouton gauche, on vérifie bouton droite
                 for b in boutons_droite:
                     if b.collidepoint(pos) and bouton_selectionne:
-                        connexions.append((bouton_selectionne, b))  # Connexion entre gauche et droite
+                        connexions.append((bouton_selectionne, b))  # Connexion 
                         bouton_selectionne = None 
                         break
 
@@ -179,13 +167,13 @@ while running:
     pygame.draw.rect(fenetre, (0, 0, 0), bouton9)
     pygame.draw.rect(fenetre, (0, 0, 0), bouton10)
     
-    for b1, b2 in connexions:
+    for b1, b2 in connexions: # Dessiner les fils entre les boutons connectés
         x1, y1 = b1.center
         x2, y2 = b2.center
         pygame.draw.line(fenetre, (0, 0, 255), (x1, y1), (x2, y2), 3)
 
     # Dessiner le bouton de vérification
-    pygame.draw.rect(fenetre, (0, 200, 0), bouton_verification)
+    pygame.draw.rect(fenetre, (0, 100, 0), bouton_verification) # couleur
     font = pygame.font.Font(None, 24)
     texte_verif = font.render("Vérifier", True, (255, 255, 255))
     fenetre.blit(texte_verif, (bouton_verification.x + 10, bouton_verification.y + 10))
@@ -204,5 +192,21 @@ while running:
 
     # Mettre à jour l'affichage
     pygame.display.flip()
+
+
+    # Dessiner une barre de titre en haut
+    pygame.draw.rect(fenetre, (220, 220, 220), (0, 0, 600, 40))  # barre grise
+
+    # Afficher le titre du jeu
+    font_titre = pygame.font.Font(None, 32)
+    texte_titre = font_titre.render("yo", True, (0, 0, 0))
+    fenetre.blit(texte_titre, (10, 10))
+
+    # Dessiner un onglet à côté du titre
+    pygame.draw.rect(fenetre, (180, 180, 180), (120, 5, 100, 30), border_radius=8)
+    texte_onglet = font_titre.render("Onglet", True, (0, 0, 0))
+    fenetre.blit(texte_onglet, (130, 10))
+
+
 
 pygame.quit()
