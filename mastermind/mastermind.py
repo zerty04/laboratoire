@@ -1,4 +1,3 @@
-
 import random
 import pygame
 
@@ -89,6 +88,10 @@ def main():
     # Quitte Pygame
     pygame.quit()
 
-# Point d'entrée du programme
-if __name__ == "__main__":
+# Fonction de lancement du jeu depuis un launcher
+def run():
     main()
+
+# Lancement direct si exécuté en autonome
+if __name__ == "__main__":
+    run()
