@@ -240,7 +240,6 @@ while running:
         fenetre.blit(texte_surface, (560, 65)) 
         
 
-
     pygame.draw.rect(fenetre, (220, 220, 220), (0, 0, 800, 40))  # barre grise du haut
     font = pygame.font.Font(None, 27)
     texte_surface = font.render("Reconnectez les fils", True, (0, 0, 0)) 
