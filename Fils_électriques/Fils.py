@@ -97,6 +97,9 @@ explosion_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion_
 explosion_image = pygame.transform.scale(explosion_image, (100, 100))
 explosion_visible = False
 
+GameOver_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/GameOver.jpg')
+GameOver_image = pygame.transform.scale(GameOver_image, (800, 600))
+GameOver_visible = False
 
 mission_passed_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/mission_passed.jpg') 
 mission_passed_image = pygame.transform.scale(mission_passed_image, (600, 600))
@@ -175,9 +178,21 @@ while running:
                             connexion_incorrecte = True
                             explosion_visible = True
                             explosion_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion_finale.jpg') 
-                            explosion_image = pygame.transform.scale(explosion_image, (250, 250))
-                            fenetre.blit(explosion_image, (0, 150))
+                            explosion_image = pygame.transform.scale(explosion_image, (500, 500))
+                            fenetre.blit(explosion_image, (150, -20))
                             timer = pygame.time.get_ticks() + 2000
+                            pygame.display.flip()
+                            sleep(3)
+                            GameOver_visible = True
+                            GameOver_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/GameOver.jpg')
+                            GameOver_image = pygame.transform.scale(GameOver_image, (800, 600))
+                            fenetre.blit(GameOver_image, (0, -50))
+                            timer = pygame.time.get_ticks() + 2000
+                            pygame.display.flip()
+                            sleep(4)
+                            pygame.quit()
+                            sys.exit()
+
                     connexions.clear() 
                     bouton_selectionne = None  
 
@@ -270,8 +285,8 @@ while running:
     # Onglet du Carnet
     couleur_carnet = (100, 100, 100) if onglet_actif == "Carnet" else (220, 220, 220)
     pygame.draw.rect(fenetre, couleur_carnet, rect_onglet_carnet, border_radius=8)
-    ma_police = pygame.font.Font(None, 16)
-    texte_carnet_onglet = ma_police.render("Secret", True, (0, 0, 0))
+    ma_police = pygame.font.SysFont('Georgia', 10)
+    texte_carnet_onglet = ma_police.render("S e c r e t", True, (0, 0, 0))
     fenetre.blit(texte_carnet_onglet, (rect_onglet_carnet.x + 5, rect_onglet_carnet.y + 5))
 
     for b1, b2 in connexions:
