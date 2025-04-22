@@ -204,7 +204,7 @@ while running:
                         fenetre.blit(mission_passed_image, (0, 0)) 
                         timer = pygame.time.get_ticks() + 2000
                         pygame.display.flip()
-                        sleep(2)
+                        sleep(3)
                         pygame.quit()
                         sys.exit()
 
