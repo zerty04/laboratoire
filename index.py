@@ -11,7 +11,7 @@ pygame.init()
 
 
 # PARAMÈTRES DE LA FENÊTRE
-WIDTH, HEIGHT = 1024, 900
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hacker Terminal")
 
