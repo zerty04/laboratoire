@@ -1,6 +1,6 @@
 import time
 from mastermind import mastermind  # L'importation doit pointer vers le sous-dossier
-import index  # Ton deuxième jeu (index.py)
+
 
 def lancer_jeu(jeu_module, nom_jeu):
     print(f"\n🎮 Lancement de {nom_jeu}...")
@@ -21,6 +21,8 @@ def main():
 
     # Lancement de Mastermind en premier
     lancer_jeu(mastermind, "Mastermind")
+
+    import index  # Ton deuxième jeu (index.py)
     
     # Une fois Mastermind terminé, lancer index
     lancer_jeu(index, "Crack the Code")
