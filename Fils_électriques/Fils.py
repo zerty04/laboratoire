@@ -69,39 +69,39 @@ boutons_droite = [bouton6, bouton7, bouton8, bouton9, bouton10]
 
 
 # Images
-image_bouton1 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/volcan.jpg')
+image_bouton1 = pygame.image.load('Fils_électriques/images du turfu/volcan.jpg')
 image_bouton1 = pygame.transform.scale(image_bouton1, (50, 50))
-image_bouton2 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/pierre.jpg')
+image_bouton2 = pygame.image.load('Fils_électriques/images du turfu/pierre.jpg')
 image_bouton2 = pygame.transform.scale(image_bouton2, (50, 50))
-image_bouton3 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/tube_a_essai.jpg')
+image_bouton3 = pygame.image.load('Fils_électriques/images du turfu/tube_a_essai.jpg')
 image_bouton3 = pygame.transform.scale(image_bouton3, (50, 50))
-image_bouton4 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/feu.jpg')
+image_bouton4 = pygame.image.load('Fils_électriques/images du turfu/feu.jpg')
 image_bouton4 = pygame.transform.scale(image_bouton4, (50, 50))
-image_bouton5 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/eau.jpg')
+image_bouton5 = pygame.image.load('Fils_électriques/images du turfu/eau.jpg')
 image_bouton5 = pygame.transform.scale(image_bouton5, (50, 50))
 
 
-image_bouton6 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/pierre.jpg')
+image_bouton6 = pygame.image.load('Fils_électriques/images du turfu/pierre.jpg')
 image_bouton6 = pygame.transform.scale(image_bouton6, (50, 50))
-image_bouton7 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/nuage.jpg')
+image_bouton7 = pygame.image.load('Fils_électriques/images du turfu/nuage.jpg')
 image_bouton7 = pygame.transform.scale(image_bouton7, (50, 50))
-image_bouton8 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/plante.jpg')
+image_bouton8 = pygame.image.load('Fils_électriques/images du turfu/plante.jpg')
 image_bouton8 = pygame.transform.scale(image_bouton8, (50, 50))
-image_bouton9 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion.jpg')
+image_bouton9 = pygame.image.load('Fils_électriques/images du turfu/explosion.jpg')
 image_bouton9 = pygame.transform.scale(image_bouton9, (50, 50))
-image_bouton10 = pygame.image.load('C:/Documents/ISEP/Projet Info S2/diamant.jpg')
+image_bouton10 = pygame.image.load('Fils_électriques/images du turfu/diamant.jpg')
 image_bouton10 = pygame.transform.scale(image_bouton10, (50, 50))
 
 
-explosion_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion_finale.jpg') 
+explosion_image = pygame.image.load('Fils_électriques/images du turfu/explosion_finale.jpg') 
 explosion_image = pygame.transform.scale(explosion_image, (100, 100))
 explosion_visible = False
 
-GameOver_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/GameOver.jpg')
+GameOver_image = pygame.image.load('Fils_électriques/images du turfu/GameOver.jpg')
 GameOver_image = pygame.transform.scale(GameOver_image, (800, 600))
 GameOver_visible = False
 
-mission_passed_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/mission_passed.jpg') 
+mission_passed_image = pygame.image.load('Fils_électriques/images du turfu/mission_passed.jpg') 
 mission_passed_image = pygame.transform.scale(mission_passed_image, (600, 600))
 mission_passed_visible = False
 
@@ -177,14 +177,14 @@ while running:
                             print(f"❌ {sym_gauche} connecté à {sym_droite} — Incorrect")
                             connexion_incorrecte = True
                             explosion_visible = True
-                            explosion_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/explosion_finale.jpg') 
+                            explosion_image = pygame.image.load('Fils_électriques/images du turfu/explosion_finale.jpg') 
                             explosion_image = pygame.transform.scale(explosion_image, (500, 500))
                             fenetre.blit(explosion_image, (150, -20))
                             timer = pygame.time.get_ticks() + 2000
                             pygame.display.flip()
                             sleep(3)
                             GameOver_visible = True
-                            GameOver_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/GameOver.jpg')
+                            GameOver_image = pygame.image.load('Fils_électriques/images du turfu/GameOver.jpg')
                             GameOver_image = pygame.transform.scale(GameOver_image, (800, 600))
                             fenetre.blit(GameOver_image, (0, -50))
                             timer = pygame.time.get_ticks() + 2000
@@ -199,7 +199,7 @@ while running:
                     if connexions_correctes == 5 and connexion_incorrecte == False:
                         mission_passed_visible = True
                         print("🎉 Toutes les connexions sont correctes ! Fin du jeu.")
-                        mission_passed_image = pygame.image.load('C:/Documents/ISEP/Projet Info S2/mission_passed.jpg') 
+                        mission_passed_image = pygame.image.load('Fils_électriques/images du turfu/mission_passed.jpg') 
                         mission_passed_image = pygame.transform.scale(mission_passed_image, (800, 600))
                         fenetre.blit(mission_passed_image, (0, 0)) 
                         timer = pygame.time.get_ticks() + 2000
